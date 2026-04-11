@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 Calendar - JUSTINE DE JESUS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+        .calendar-container {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            margin: 20px;
+            overflow: hidden;
+        }
+        .calendar-header {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .month-nav {
+            background: rgba(255,255,255,0.9);
+            padding: 20px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        .month-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #333;
+            margin: 0;
+        }
+        .calendar-table {
+            width: 100%;
+            margin: 0;
+            font-size: 0.95rem;
+        }
+        .calendar-table th {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 10px;
+            text-align: center;
+            font-weight: 600;
+            border: none;
+        }
+        .calendar-table td {
+            padding: 8px 5px;
+            text-align: center;
+            border: 1px solid rgba(0,0,0,0.05);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            height: 60px;
+            vertical-align: middle;
+        }
+        .calendar-table td:hover {
+            background: linear-gradient(45deg, #ffecd2, #fcb69f);
+            transform: scale(1.05);
+            z-index: 10;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .calendar-table td.other-month {
+            color: #ccc;
+            background: rgba(0,0,0,0.02);
+        }
+        .calendar-table td.today {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52) !important;
+            color: white;
+            font-weight: 700;
+            box-shadow: 0 0 20px rgba(255,107,107,0.5);
+        }
+        .calendar-table td.weekend {
+            background: linear-gradient(45deg, #a8e6cf, #88d8a3);
+            color: #2d5a3e;
+            font-weight: 600;
+        }
+        .calendar-table td.holiday {
+            background: linear-gradient(45deg, #ff9ff3, #f368e0) !important;
+            color: white;
+            font-weight: 700;
+            position: relative;
+        }
+        .holiday-dot {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 6px;
+            height: 6px;
+            background: #ff4757;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .date-number {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        .month-nav .btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            padding: 10px 25px;
+            font-weight: 600;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        .month-nav .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102,126,234,0.4);
+        }
+        .legend {
+            background: rgba(255,255,255,0.9);
+            padding: 20px;
+            margin: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            margin-right: 10px;
+            border: 2px solid rgba(0,0,0,0.1);
+        }
+        @media (max-width: 768px) {
+            .calendar-table td {
+                padding: 5px 3px;
+                font-size: 0.85rem;
+                height: 50px;
+            }
+            .month-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-11">
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <h1 class="display-4 fw-bold mb-0">
+                            <i class="fas fa-calendar-alt me-3"></i>
+                            2026 CALENDAR
+                        </h1>
+                        <p class="lead mb-0 mt-2 opacity-90">JUSTINE DE JESUS</p>
+                    </div>
+                    
+                    <div class="month-nav d-flex justify-content-between align-items-center">
+                        <button class="btn btn-primary prev-month" onclick="changeMonth(-1)">
+                            <i class="fas fa-chevron-left me-2"></i>Previous
+                        </button>
+                        <h2 class="month-title mb-0" id="monthTitle">January 2026</h2>
+                        <button class="btn btn-primary next-month" onclick="changeMonth(1)">
+                            Next <i class="fas fa-chevron-right ms-2"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-borderless calendar-table mb-0" id="calendarTable">
+                            <thead>
+                                <tr>
+                                    <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th>
+                                    <th>Thu</th><th>Fri</th><th>Sat</th>
+                                </tr>
+                            </thead>
+                            <tbody id="calendarBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10 col-lg-8">
+                <div class="legend">
+                    <h5 class="mb-3"><i class="fas fa-info-circle me-2"></i>Legend</h5>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: linear-gradient(45deg, #ff6b6b, #ee5a52);"></div>
+                        <span>Today</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: linear-gradient(45deg, #a8e6cf, #88d8a3);"></div>
+                        <span>Weekend</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: linear-gradient(45deg, #ff9ff3, #f368e0);"></div>
+                        <span>Holidays</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const months = [
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+        
+        const holidays2026 = {
+            1: [1, 19],    // New Year, MLK Day
+            2: [12],       // Lincoln's Birthday
+            5: [25],       // Memorial Day (last Mon)
+            6: [19],       // Juneteenth
+            7: [4],        // Independence Day
+            9: [7],        // Labor Day (first Mon)
+            10: [12],      // Columbus Day
+            11: [11, 26],  // Veterans Day, Thanksgiving
+            12: [25]       // Christmas
+        };
+        
+        let currentMonth = 0;
+        
+        function generateCalendar(monthIndex) {
+            const date = new Date(2026, monthIndex, 1);
+            const year = 2026;
+            const month = months[monthIndex];
+            const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+            const firstDay = date.getDay();
+            
+            document.getElementById('monthTitle').textContent = `${month} 2026`;
+            
+            let tableHTML = '';
+            
+            // Empty cells for days before 1st
+            for (let i = 0; i < firstDay; i++) {
+                tableHTML += '<td class="other-month"></td>';
+            }
+            
+            // Days of the month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayOfWeek = new Date(year, monthIndex, day).getDay();
+                let cellClass = '';
+                
+                // Weekend
+                if (dayOfWeek === 0 || dayOfWeek === 6) {
+                    cellClass += 'weekend ';
+                }
+                
+                // Holiday
+                if (holidays2026[monthIndex + 1] && holidays2026[monthIndex + 1].includes(day)) {
+                    cellClass += 'holiday';
+                }
+                
+                tableHTML += `
+                    <td class="${cellClass}" onclick="selectDate(${monthIndex + 1}, ${day})">
+                        <div class="date-number">${day}</div>
+                        ${cellClass.includes('holiday') ? '<div class="holiday-dot"></div>' : ''}
+                    </td>
+                `;
+                
+                // New row every 7 days
+                if ((firstDay + day) % 7 === 0 || day === daysInMonth) {
+                    tableHTML += '</tr><tr>';
+                }
+            }
+            
+            // Fill remaining cells
+            const totalCells = firstDay + daysInMonth;
+            const remainingCells = (7 - (totalCells % 7)) % 7;
+            for (let i = 0; i < remainingCells; i++) {
+                tableHTML += '<td class="other-month"></td>';
+            }
+            
+            document.getElementById('calendarBody').innerHTML = tableHTML;
+        }
+        
+        function changeMonth(direction) {
+            currentMonth = (currentMonth + direction + 12) % 12;
+            generateCalendar(currentMonth);
+        }
+        
+        function selectDate(month, day) {
+            alert(`Selected: ${months[month-1]} ${day}, 2026\n🎉 Great choice, Justine!`);
+        }
+        
+        // Initialize January 2026
+        window.onload = () => generateCalendar(0);
+    </script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</body>
+</html>
