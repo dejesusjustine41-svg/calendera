@@ -3,300 +3,377 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2026 Calendar - JUSTINE DE JESUS</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>ARJAN RAFAEL CALENDAR - 2026</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --web3-bg: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--web3-bg);
+            color: #ffffff;
             min-height: 100vh;
-            padding: 20px 0;
+            overflow-x: auto;
         }
-        .calendar-container {
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 25px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
-            margin: 20px;
+
+        .calendar-header {
+            background: var(--primary-gradient);
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            position: relative;
             overflow: hidden;
         }
-        .calendar-header {
-            background: linear-gradient(45deg, #ff6b6b, #feca57);
-            color: white;
-            padding: 30px;
+
+        .calendar-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .user-name {
+            font-size: 3rem;
+            font-weight: 700;
+            text-align: center;
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255,255,255,0.5);
+            position: relative;
+            z-index: 2;
+        }
+
+        .calendar-title {
+            font-size: 1.5rem;
+            text-align: center;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .month-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .month-header {
+            background: var(--secondary-gradient);
+            padding: 1.5rem;
             text-align: center;
         }
-        .month-nav {
-            background: rgba(255,255,255,0.9);
-            padding: 20px;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-        }
+
         .month-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #333;
+            font-size: 1.8rem;
+            font-weight: 600;
             margin: 0;
         }
+
         .calendar-table {
             width: 100%;
-            margin: 0;
-            font-size: 0.95rem;
+            border-collapse: separate;
+            border-spacing: 0;
         }
+
         .calendar-table th {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            padding: 15px 10px;
+            background: rgba(255,255,255,0.1);
+            padding: 1rem 0.5rem;
             text-align: center;
-            font-weight: 600;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #ffffff;
             border: none;
         }
+
         .calendar-table td {
-            padding: 8px 5px;
+            padding: 0.8rem 0.3rem;
             text-align: center;
-            border: 1px solid rgba(0,0,0,0.05);
             position: relative;
-            cursor: pointer;
             transition: all 0.3s ease;
-            height: 60px;
-            vertical-align: middle;
         }
+
         .calendar-table td:hover {
-            background: linear-gradient(45deg, #ffecd2, #fcb69f);
-            transform: scale(1.05);
+            transform: scale(1.1);
             z-index: 10;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        .calendar-table td.other-month {
-            color: #ccc;
-            background: rgba(0,0,0,0.02);
-        }
-        .calendar-table td.today {
-            background: linear-gradient(45deg, #ff6b6b, #ee5a52) !important;
-            color: white;
-            font-weight: 700;
-            box-shadow: 0 0 20px rgba(255,107,107,0.5);
-        }
-        .calendar-table td.weekend {
-            background: linear-gradient(45deg, #a8e6cf, #88d8a3);
-            color: #2d5a3e;
-            font-weight: 600;
-        }
-        .calendar-table td.holiday {
-            background: linear-gradient(45deg, #ff9ff3, #f368e0) !important;
-            color: white;
-            font-weight: 700;
-            position: relative;
-        }
-        .holiday-dot {
-            position: absolute;
-            top: 2px;
-            right: 2px;
-            width: 6px;
-            height: 6px;
-            background: #ff4757;
+            background: rgba(255,255,255,0.15) !important;
             border-radius: 50%;
+        }
+
+        .day-number {
+            display: block;
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .day-other-month {
+            color: rgba(255,255,255,0.4);
+            font-size: 0.8rem;
+        }
+
+        .today {
+            background: var(--success-gradient);
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(79, 172, 254, 0.5);
             animation: pulse 2s infinite;
         }
+
         @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.3); opacity: 0.7; }
-            100% { transform: scale(1); opacity: 1; }
+            0% { box-shadow: 0 0 20px rgba(79, 172, 254, 0.5); }
+            50% { box-shadow: 0 0 30px rgba(79, 172, 254, 0.8); }
+            100% { box-shadow: 0 0 20px rgba(79, 172, 254, 0.5); }
         }
-        .date-number {
+
+        .weekend {
+            color: #ff6b6b;
+        }
+
+        .holiday {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            color: #721c24;
+            border-radius: 50%;
             font-weight: 600;
-            font-size: 1.1rem;
         }
-        .month-nav .btn {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            border: none;
-            padding: 10px 25px;
-            font-weight: 600;
-            border-radius: 25px;
-            transition: all 0.3s ease;
+
+        .container-fluid {
+            padding: 2rem 1rem;
+            max-width: 1400px;
         }
-        .month-nav .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102,126,234,0.4);
+
+        /* Web3 Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
         }
-        .legend {
-            background: rgba(255,255,255,0.9);
-            padding: 20px;
-            margin: 20px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+
+        .month-container {
+            animation: float 6s ease-in-out infinite;
         }
-        .legend-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            font-weight: 500;
-        }
-        .legend-color {
-            width: 20px;
-            height: 20px;
-            border-radius: 4px;
-            margin-right: 10px;
-            border: 2px solid rgba(0,0,0,0.1);
-        }
+
+        /* Responsive */
         @media (max-width: 768px) {
+            .user-name {
+                font-size: 2rem;
+            }
+            .calendar-table th,
             .calendar-table td {
-                padding: 5px 3px;
-                font-size: 0.85rem;
-                height: 50px;
+                padding: 0.5rem 0.2rem;
+                font-size: 0.8rem;
             }
-            .month-title {
-                font-size: 1.8rem;
-            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-gradient);
+            border-radius: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row justify-content-center">
-            <div class="col-12 col-lg-11">
-                <div class="calendar-container">
-                    <div class="calendar-header">
-                        <h1 class="display-4 fw-bold mb-0">
-                            <i class="fas fa-calendar-alt me-3"></i>
-                            2026 CALENDAR
-                        </h1>
-                        <p class="lead mb-0 mt-2 opacity-90">JUSTINE DE JESUS</p>
-                    </div>
-                    
-                    <div class="month-nav d-flex justify-content-between align-items-center">
-                        <button class="btn btn-primary prev-month" onclick="changeMonth(-1)">
-                            <i class="fas fa-chevron-left me-2"></i>Previous
-                        </button>
-                        <h2 class="month-title mb-0" id="monthTitle">January 2026</h2>
-                        <button class="btn btn-primary next-month" onclick="changeMonth(1)">
-                            Next <i class="fas fa-chevron-right ms-2"></i>
-                        </button>
-                    </div>
-                    
-                    <div class="table-responsive">
-                        <table class="table table-borderless calendar-table mb-0" id="calendarTable">
-                            <thead>
-                                <tr>
-                                    <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th>
-                                    <th>Thu</th><th>Fri</th><th>Sat</th>
-                                </tr>
-                            </thead>
-                            <tbody id="calendarBody"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-10 col-lg-8">
-                <div class="legend">
-                    <h5 class="mb-3"><i class="fas fa-info-circle me-2"></i>Legend</h5>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: linear-gradient(45deg, #ff6b6b, #ee5a52);"></div>
-                        <span>Today</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: linear-gradient(45deg, #a8e6cf, #88d8a3);"></div>
-                        <span>Weekend</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: linear-gradient(45deg, #ff9ff3, #f368e0);"></div>
-                        <span>Holidays</span>
-                    </div>
-                </div>
-            </div>
+    <div class="calendar-header">
+        <div class="container">
+            <h1 class="user-name">ARJAN RAFAEL CALENDAR</h1>
+            <p class="calendar-title">2026 Calendar</p>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="container-fluid">
+        <div id="calendarContainer"></div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
-        const months = [
+        // 2026 Calendar Data
+        const MONTH_NAMES = [
             'January', 'February', 'March', 'April', 'May', 'June',
             'July', 'August', 'September', 'October', 'November', 'December'
         ];
-        
-        const holidays2026 = {
-            1: [1, 19],    // New Year, MLK Day
-            2: [12],       // Lincoln's Birthday
-            5: [25],       // Memorial Day (last Mon)
-            6: [19],       // Juneteenth
-            7: [4],        // Independence Day
-            9: [7],        // Labor Day (first Mon)
-            10: [12],      // Columbus Day
-            11: [11, 26],  // Veterans Day, Thanksgiving
-            12: [25]       // Christmas
+
+        const WEEK_DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+        // Major 2026 Holidays (US/International)
+        const HOLIDAYS_2026 = {
+            '2026-01-01': 'New Year\'s Day',
+            '2026-01-19': 'Martin Luther King Jr. Day',
+            '2026-02-14': 'Valentine\'s Day',
+            '2026-02-16': 'Presidents\' Day',
+            '2026-04-05': 'Easter Sunday',
+            '2026-05-31': 'Memorial Day',
+            '2026-06-14': 'Flag Day',
+            '2026-07-04': 'Independence Day',
+            '2026-09-07': 'Labor Day',
+            '2026-10-12': 'Columbus Day',
+            '2026-11-11': 'Veterans Day',
+            '2026-11-26': 'Thanksgiving',
+            '2026-12-25': 'Christmas Day'
         };
-        
-        let currentMonth = 0;
-        
-        function generateCalendar(monthIndex) {
-            const date = new Date(2026, monthIndex, 1);
-            const year = 2026;
-            const month = months[monthIndex];
-            const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
-            const firstDay = date.getDay();
-            
-            document.getElementById('monthTitle').textContent = `${month} 2026`;
-            
-            let tableHTML = '';
-            
-            // Empty cells for days before 1st
-            for (let i = 0; i < firstDay; i++) {
-                tableHTML += '<td class="other-month"></td>';
+
+        function generateCalendar(year = 2026) {
+            const container = document.getElementById('calendarContainer');
+            container.innerHTML = '';
+
+            for (let month = 0; month < 12; month++) {
+                const calendarHTML = createMonthCalendar(year, month);
+                const monthDiv = document.createElement('div');
+                monthDiv.className = 'month-container';
+                monthDiv.innerHTML = calendarHTML;
+                container.appendChild(monthDiv);
             }
-            
-            // Days of the month
-            for (let day = 1; day <= daysInMonth; day++) {
-                const dayOfWeek = new Date(year, monthIndex, day).getDay();
-                let cellClass = '';
-                
-                // Weekend
-                if (dayOfWeek === 0 || dayOfWeek === 6) {
-                    cellClass += 'weekend ';
-                }
-                
-                // Holiday
-                if (holidays2026[monthIndex + 1] && holidays2026[monthIndex + 1].includes(day)) {
-                    cellClass += 'holiday';
-                }
-                
-                tableHTML += `
-                    <td class="${cellClass}" onclick="selectDate(${monthIndex + 1}, ${day})">
-                        <div class="date-number">${day}</div>
-                        ${cellClass.includes('holiday') ? '<div class="holiday-dot"></div>' : ''}
-                    </td>
-                `;
-                
-                // New row every 7 days
-                if ((firstDay + day) % 7 === 0 || day === daysInMonth) {
-                    tableHTML += '</tr><tr>';
+        }
+
+        function createMonthCalendar(year, month) {
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const startDay = firstDay.getDay();
+            const daysInMonth = lastDay.getDate();
+
+            let tableHTML = `
+                <div class="month-header">
+                    <h2 class="month-title">${MONTH_NAMES[month]} ${year}</h2>
+                </div>
+                <table class="table calendar-table mb-0">
+                    <thead>
+                        <tr>
+            `;
+
+            WEEK_DAYS.forEach(day => {
+                tableHTML += `<th>${day}</th>`;
+            });
+
+            tableHTML += `
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            let date = 1;
+            let row = 0;
+
+            // Previous month days
+            if (startDay > 0) {
+                const prevMonth = new Date(year, month, 0);
+                const prevDays = prevMonth.getDate();
+                for (let i = startDay - 1; i >= 0; i--) {
+                    if (row === 0) tableHTML += '<tr>';
+                    tableHTML += `<td class="day-other-month">${prevDays - i}</td>`;
+                    if (++row === 7) {
+                        tableHTML += '</tr>';
+                        row = 0;
+                    }
                 }
             }
-            
-            // Fill remaining cells
-            const totalCells = firstDay + daysInMonth;
-            const remainingCells = (7 - (totalCells % 7)) % 7;
-            for (let i = 0; i < remainingCells; i++) {
-                tableHTML += '<td class="other-month"></td>';
+
+            // Current month days
+            while (date <= daysInMonth) {
+                if (row === 0) tableHTML += '<tr>';
+                
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
+                const isToday = dateStr === '2026-10-15'; // Example today date
+                const isHoliday = HOLIDAYS_2026[dateStr];
+                const isWeekend = (firstDay.getDay() + date - 1) % 7 === 0 || (firstDay.getDay() + date - 1) % 7 === 6;
+
+                let dayClass = 'day-number';
+                if (isToday) dayClass += ' today';
+                if (isWeekend) dayClass += ' weekend';
+                if (isHoliday) dayClass += ' holiday';
+
+                tableHTML += `<td>`;
+                if (isHoliday) {
+                    tableHTML += `<span class="day-number ${dayClass}" title="${isHoliday}">${date}</span>`;
+                } else {
+                    tableHTML += `<span class="day-number ${dayClass}">${date}</span>`;
+                }
+                tableHTML += `</td>`;
+
+                date++;
+                if (++row === 7) {
+                    tableHTML += '</tr>';
+                    row = 0;
+                }
             }
+
+            // Next month days
+            if (row !== 0) {
+                const nextMonthDays = 42 - (startDay + daysInMonth); // 6 rows total
+                for (let i = 1; i <= nextMonthDays; i++) {
+                    if (row === 0) tableHTML += '<tr>';
+                    tableHTML += `<td class="day-other-month">${i}</td>`;
+                    if (++row === 7) {
+                        tableHTML += '</tr>';
+                        row = 0;
+                    }
+                }
+            }
+
+            tableHTML += `
+                    </tbody>
+                </table>
+            `;
+
+            return tableHTML;
+        }
+
+        // Initialize calendar on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            generateCalendar(2026);
             
-            document.getElementById('calendarBody').innerHTML = tableHTML;
-        }
-        
-        function changeMonth(direction) {
-            currentMonth = (currentMonth + direction + 12) % 12;
-            generateCalendar(currentMonth);
-        }
-        
-        function selectDate(month, day) {
-            alert(`Selected: ${months[month-1]} ${day}, 2026\n🎉 Great choice, Justine!`);
-        }
-        
-        // Initialize January 2026
-        window.onload = () => generateCalendar(0);
+            // Add floating animation stagger
+            const containers = document.querySelectorAll('.month-container');
+            containers.forEach((container, index) => {
+                container.style.animationDelay = `${index * 0.2}s`;
+            });
+        });
+
+        // Add click interaction
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('day-number')) {
+                e.target.style.transform = 'scale(1.3)';
+                setTimeout(() => {
+                    e.target.style.transform = 'scale(1)';
+                }, 200);
+            }
+        });
     </script>
 </body>
 </html>
